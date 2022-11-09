@@ -1,7 +1,7 @@
 eps = 0.01;
-angle = 40 ;
+angle = 30;
 blades = 5;
-d = 12;
+d = 15;
 h = 2;
 l = 30;
 
