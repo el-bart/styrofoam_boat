@@ -50,4 +50,3 @@ module screw()
 }
 
 screw();
-//blade(10, 2, 20);
