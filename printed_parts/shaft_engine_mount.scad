@@ -5,7 +5,7 @@ module shaft_engine_mount(d_mnt_eng=9,   h_mnt_eng=5,
                           wall=2, spacing=0.75)
 {
   eps = 0.01;
-  h = h_mnt_eng + h_mnt_shaft + 2*wall;
+  h = h_mnt_eng + h_mnt_shaft + wall;
   d_ext = d_mnt_eng+spacing+2*wall;
   difference()
   {
@@ -18,11 +18,11 @@ module shaft_engine_mount(d_mnt_eng=9,   h_mnt_eng=5,
       cylinder(d=d_mnt_shaft+spacing, h=h_mnt_shaft+eps, $fn=fn(50));
     // M2 screw hole for holding shaft in place
     {
-      d = 2+0.25;
-      h = 2*d_ext;
-      #translate([0, h/2, max(h_mnt_shaft-2*d, d_mnt_shaft/2)])
+      d_screw = 2+0.25;
+      h_screw = 2*d_ext;
+      translate([0, h_screw/2, max(h_mnt_shaft-2*d_screw, d_mnt_shaft/2)])
         rotate([90, 0, 0])
-          cylinder(d=d, h=h, $fn=fn(50));
+          cylinder(d=d_screw, h=h_screw, $fn=fn(50));
     }
   }
 }
