@@ -7,7 +7,7 @@ flash: build
 
 .PHONY: build
 build:
-	pio run -v --disable-auto-clean
+	pio run --disable-auto-clean
 
 .PHONY: clean
 clean:
