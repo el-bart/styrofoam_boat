@@ -5,7 +5,7 @@ Servo servo;
 
 void setup()
 {
-  servo.attach(2);    // D2
+  servo.attach(2);    // aka: D2
 }
 
 void loop()
