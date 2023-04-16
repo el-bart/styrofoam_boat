@@ -11,4 +11,5 @@ while True:
     th = joystick.throttle()
     rd = joystick.rudder()
     print("throttle: {} / rudder: {}".format(th, rd))
+    bio.send(th, rd)
     time.sleep(0.01)
