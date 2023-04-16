@@ -13,14 +13,15 @@ struct Frame
   bool checksum_correct() const
   {
     auto const x = data_[0] ^ data_[1];
-    return ( x & 0x7f ) == data_[2];
+    return ( x | 0x80 ) == data_[2];
   }
   bool correct() const
   {
-    if( ( data_[0] & 0x80 ) != 0 ) return false;
-    if( ( data_[1] & 0x80 ) != 0 ) return false;
-    if( ( data_[2] & 0x80 ) != 1 ) return false;
+    if( ( data_[0] & 0x80 ) != 0x00 ) return false;
+    if( ( data_[1] & 0x80 ) != 0x00 ) return false;
+    if( ( data_[2] & 0x80 ) != 0x80 ) return false;
     return checksum_correct();
+    return true;
   }
 
   EngineDir engine_direction() const
