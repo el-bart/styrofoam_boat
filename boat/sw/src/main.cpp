@@ -36,7 +36,7 @@ void setup()
   start_position();
   {
     wdt_disable();
-    // wdt_enable(WDTO_2S)
+    wdt_enable(WDTO_1S);
   }
 }
 
