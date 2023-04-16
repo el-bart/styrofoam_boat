@@ -6,25 +6,56 @@
 Servo servo;
 auto constexpr pin_servo = 2;
 auto constexpr pin_engine = 5;
+auto constexpr pin_engine_enable = 10;  // L298: enable pin  -> pin 6
+auto constexpr pin_engine_input_a = 11; // L298: input pin C -> pin 5
+auto constexpr pin_engine_input_b = 12; // L298: input pin D -> pin 7
 ProtoFsm fsm;
 
 namespace
 {
+void apply_engine(Frame const& frame)
+{
+  analogWrite( pin_engine, frame.engine_speed() );
+  if( frame.engine_speed() == 0u )
+  {
+    digitalWrite(pin_engine_enable, 0);
+    return;
+  }
+  switch( frame.engine_direction() )
+  {
+    case EngineDir::Forward:
+          digitalWrite(pin_engine_input_a, 1);
+          digitalWrite(pin_engine_input_b, 0);
+          break;
+    case EngineDir::Reverse:
+          digitalWrite(pin_engine_input_a, 0);
+          digitalWrite(pin_engine_input_b, 1);
+          break;
+  }
+  digitalWrite(pin_engine_enable, 1);
+}
+
+void apply_servo(Frame const& frame)
+{
+  servo.write( frame.rudder_angle() );
+}
+
 void apply_outputs(uint8_t byte)
 {
   if( not fsm.add_byte(byte) )
     return;
   auto const frame = fsm.pop();
-  // TODO: apply frame.engine_direction()
-  analogWrite( pin_engine, frame.engine_speed() );
-  servo.write( frame.rudder_angle() );
+  apply_engine(frame);
+  apply_servo(frame);
 }
 
 void start_position()
 {
-  apply_outputs(60);
-  apply_outputs(0);
-  apply_outputs((60^0) | 0x80);
+  auto constexpr start_servo = 127/2;
+  auto constexpr start_engine = 0;
+  apply_outputs(start_servo);
+  apply_outputs(start_engine);
+  apply_outputs((start_servo ^ start_engine) | 0x80);
 }
 }
 
@@ -32,7 +63,12 @@ void setup()
 {
   Serial.begin(9600);   // RX == 0, TX == 1
   servo.attach(pin_servo);
-  pinMode(pin_engine, OUTPUT);
+  {
+    pinMode(pin_engine, OUTPUT);
+    pinMode(pin_engine_enable, OUTPUT);
+    pinMode(pin_engine_input_a, OUTPUT);
+    pinMode(pin_engine_input_b, OUTPUT);
+  }
   start_position();
   {
     wdt_disable();
