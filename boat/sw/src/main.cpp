@@ -3,27 +3,13 @@
 #include <avr/wdt.h>
 #include "ProtoFsm.hpp"
 
-enum class EngineDir
-{
-  Forward,
-  Reverse
-};
-
 Servo servo;
 auto constexpr pin_servo = 2;
 auto constexpr pin_engine = 5;
 ProtoFsm fsm;
 
-auto g_engine_dir = EngineDir::Forward;
-uint8_t g_engine_power = 0;  // 1kHz PWM: 0-255
-uint8_t g_servo_pos = 0;     // angle in degrees: 0-180
-
 void setup()
 {
-  g_engine_dir = EngineDir::Forward;
-  g_engine_power = 0;
-  g_servo_pos = 0;
-
   Serial.begin(9600);   // RX == 0, TX == 1
   servo.attach(pin_servo);
   pinMode(pin_engine, OUTPUT);
@@ -64,8 +50,8 @@ void apply_outputs(uint8_t byte)
 {
   if( not fsm.add_byte(byte) )
     return;
-  analogWrite(pin_engine, g_engine_power);
-  servo.write(g_servo_pos);
+  analogWrite(pin_engine, 0);
+  servo.write(90);
 }
 }
 
