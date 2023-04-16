@@ -15,9 +15,6 @@ class Boat:
         if output:
             print("{:02x} {:02x} {:02x}".format(frame[0], frame[1], frame[2]))
         self._sp.write(frame)
-        #while False:
-        #    b = self._sp.read(1)
-        #    print("{}".format(chr(b[0])))
 
     def _encode_speed(self, s):
         assert( -100 <= s and s <= +100 )
