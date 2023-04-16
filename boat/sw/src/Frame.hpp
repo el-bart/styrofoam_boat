@@ -21,7 +21,6 @@ struct Frame
     if( ( data_[1] & 0x80 ) != 0x00 ) return false;
     if( ( data_[2] & 0x80 ) != 0x80 ) return false;
     return checksum_correct();
-    return true;
   }
 
   EngineDir engine_direction() const
