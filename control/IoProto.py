@@ -9,12 +9,15 @@ class Boat:
     # servo_pos = -60..+60 [deg] (0 == center)
     def send(self, eng_speed, servo_pos, output=False):
         frame = bytearray()
-        frame.append( self._encode_speed(eng_speed) )
         frame.append( self._encode_servo_pos(servo_pos) )
+        frame.append( self._encode_speed(eng_speed) )
         frame.append( self._encode_checksum(frame) )
         if output:
             print("{:02x} {:02x} {:02x}".format(frame[0], frame[1], frame[2]))
         self._sp.write(frame)
+        #while False:
+        #    b = self._sp.read(1)
+        #    print("{}".format(chr(b[0])))
 
     def _encode_speed(self, s):
         assert( -100 <= s and s <= +100 )
