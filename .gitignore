@@ -5,3 +5,7 @@
 # git
 *.orig
 *.rej
+
+# python
+__pycache__/
+*.pyc

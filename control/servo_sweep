@@ -1,0 +1,11 @@
+#!/usr/bin/env python3
+import IoProto
+import time
+
+port = '/dev/ttyUSB0'
+bio = IoProto.Boat(port)
+
+while True:
+    for p in range(-60, +60):
+        bio.send(0, p, output=True)
+        time.sleep(0.05)
