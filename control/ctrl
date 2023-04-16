@@ -6,10 +6,15 @@ import time
 bio = IoProto.Boat(port='/dev/ttyUSB0')
 joystick = Joystick.Device(dev='/dev/input/js0', axis_throttle=1, axis_rudder=0)
 
+def fmt(i):
+    n = "{:02}".format(abs(i))
+    s = "+" if i>=0 else "-"
+    return "{}{}".format(s, n)
+
 while True:
     joystick.update()
     th = joystick.throttle()
     rd = joystick.rudder()
-    print("throttle: {} / rudder: {}".format(th, rd))
+    print("throttle: {} / rudder: {}".format(fmt(th), fmt(rd)))
     bio.send(th, rd)
     time.sleep(0.01)
