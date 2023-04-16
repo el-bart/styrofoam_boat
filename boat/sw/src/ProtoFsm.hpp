@@ -19,6 +19,12 @@ struct ProtoFsm
     return true;
   }
 
+  Frame pop()
+  {
+    size_ = 0;
+    return frame_;
+  }
+
 private:
   unsigned size_{0};
   Frame frame_;

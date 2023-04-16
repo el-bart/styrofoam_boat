@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <Servo.h>
 #include <avr/wdt.h>
+#include "ProtoFsm.hpp"
 
 enum class EngineDir
 {
@@ -11,6 +12,7 @@ enum class EngineDir
 Servo servo;
 auto constexpr pin_servo = 2;
 auto constexpr pin_engine = 5;
+ProtoFsm fsm;
 
 auto g_engine_dir = EngineDir::Forward;
 uint8_t g_engine_power = 0;  // 1kHz PWM: 0-255
@@ -35,24 +37,33 @@ void setup()
 
 namespace
 {
-uint8_t g_data[3];
-uint8_t g_bytes = 0;
+struct SerialByte
+{
+  SerialByte() = default;
+  explicit SerialByte(uint8_t byte):
+    is_set_{true},
+    byte_{byte}
+  { }
 
-void read_serial()
+  bool is_set_{false};
+  uint8_t byte_{0};
+};
+
+SerialByte read_serial()
 {
   while(Serial.available() < 1)
   { }
   auto byte = Serial.read();
   if(byte < 0)
-    return;
+    return {};
   Serial.write('x');
-  // TODO: do real adding byte and parsing...
-  g_engine_power = byte;
-
+  return SerialByte{ static_cast<uint8_t>(byte) };
 }
 
-void apply_outputs()
+void apply_outputs(uint8_t byte)
 {
+  if( not fsm.add_byte(byte) )
+    return;
   analogWrite(pin_engine, g_engine_power);
   servo.write(g_servo_pos);
 }
@@ -60,7 +71,9 @@ void apply_outputs()
 
 void loop()
 {
-  read_serial();
-  apply_outputs();
+  auto const serial_byte = read_serial();
+  if(not serial_byte.is_set_)
+    return;
+  apply_outputs(serial_byte.byte_);
   wdt_reset();
 }

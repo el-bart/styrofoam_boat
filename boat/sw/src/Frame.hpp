@@ -3,12 +3,12 @@
 
 struct Frame
 {
-  auto checksum_correct() const
+  bool checksum_correct() const
   {
     auto const x = data_[0] ^ data_[1];
     return ( x & 0x7f ) == data_[2];
   }
-  auto correct() const
+  bool correct() const
   {
     if( ( data_[0] & 0x80 ) != 0 ) return false;
     if( ( data_[1] & 0x80 ) != 0 ) return false;
