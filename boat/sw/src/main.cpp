@@ -5,7 +5,6 @@
 
 Servo servo;
 auto constexpr pin_servo = 2;
-auto constexpr pin_engine = 5;
 auto constexpr pin_engine_enable = 10;  // L298: enable pin  -> pin 6
 auto constexpr pin_engine_input_a = 11; // L298: input pin C -> pin 5
 auto constexpr pin_engine_input_b = 12; // L298: input pin D -> pin 7
@@ -23,12 +22,12 @@ void debug_write(T const& t)
 
 void apply_engine(Frame const& frame)
 {
-  analogWrite( pin_engine, frame.engine_speed() );
   if( frame.engine_speed() == 0u )
   {
     digitalWrite(pin_engine_enable, 0);
     return;
   }
+  analogWrite( pin_engine_enable, frame.engine_speed() );
   switch( frame.engine_direction() )
   {
     case EngineDir::Forward:
@@ -40,7 +39,6 @@ void apply_engine(Frame const& frame)
           digitalWrite(pin_engine_input_b, 1);
           break;
   }
-  digitalWrite(pin_engine_enable, 1);
 }
 
 void apply_servo(Frame const& frame)
@@ -73,7 +71,6 @@ void setup()
   Serial.begin(1200);   // RX == 0, TX == 1
   servo.attach(pin_servo);
   {
-    pinMode(pin_engine, OUTPUT);
     pinMode(pin_engine_enable, OUTPUT);
     pinMode(pin_engine_input_a, OUTPUT);
     pinMode(pin_engine_input_b, OUTPUT);
