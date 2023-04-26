@@ -15,9 +15,9 @@ class Boat:
         frame.append( self._encode_servo_pos(servo_pos) )
         frame.append( self._encode_speed(eng_speed) )
         frame.append( self._encode_checksum(frame) )
+        self._sp.write(frame)
         if output:
             print("{:02x} {:02x} {:02x}".format(frame[0], frame[1], frame[2]))
-        self._sp.write(frame)
         return True
 
     def _encode_speed(self, s):
