@@ -3,7 +3,7 @@ import serial
 
 class Boat:
     def __init__(self, port):
-        self._sp = serial.Serial(port, 9600)
+        self._sp = serial.Serial(port, 1200)
 
     # eng_speed = -100..+100 [%] (0 == stop)
     # servo_pos = -60..+60 [deg] (0 == center)

@@ -19,3 +19,6 @@ engine speed is encoded using 6, lower bits of a byte.
 7th bit is a direction bit:
 * 0 == backward
 * 1 == forward
+
+## encoding
+data is 5V UART, sent at 1200 bps (AM transmitter and receiver have ~2.5 KHz bandwidth).
