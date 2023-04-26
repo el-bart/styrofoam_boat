@@ -8,6 +8,9 @@ class Boat:
     # eng_speed = -100..+100 [%] (0 == stop)
     # servo_pos = -60..+60 [deg] (0 == center)
     def send(self, eng_speed, servo_pos, output=False):
+        # avoid buffering - always send latest instead
+        if self._sp.out_waiting > 0:
+            return False
         frame = bytearray()
         frame.append( self._encode_servo_pos(servo_pos) )
         frame.append( self._encode_speed(eng_speed) )
@@ -15,7 +18,7 @@ class Boat:
         if output:
             print("{:02x} {:02x} {:02x}".format(frame[0], frame[1], frame[2]))
         self._sp.write(frame)
-        self._sp.flush()
+        return True
 
     def _encode_speed(self, s):
         assert( -100 <= s and s <= +100 )

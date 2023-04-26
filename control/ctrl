@@ -16,5 +16,5 @@ while True:
     th = joystick.throttle()
     rd = joystick.rudder()
     print("throttle: {} / rudder: {}".format(fmt(th), fmt(rd)))
-    bio.send(th, rd)
-    time.sleep(0.01)
+    if not bio.send(th, rd):
+        time.sleep(0.005)
