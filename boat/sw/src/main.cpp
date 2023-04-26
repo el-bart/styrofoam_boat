@@ -40,13 +40,14 @@ void apply_servo(Frame const& frame)
   servo.write( frame.rudder_angle() );
 }
 
-void apply_outputs(uint8_t byte)
+bool apply_outputs(uint8_t byte)
 {
   if( not fsm.add_byte(byte) )
-    return;
+    return false;
   auto const frame = fsm.pop();
   apply_engine(frame);
   apply_servo(frame);
+  return true;
 }
 
 void start_position()
@@ -99,7 +100,7 @@ SerialByte read_serial()
   auto byte = Serial.read();
   if(byte < 0)
     return {};
-  Serial.write('x');
+  Serial.write('.');
   return SerialByte{ static_cast<uint8_t>(byte) };
 }
 }
@@ -109,6 +110,7 @@ void loop()
   auto const serial_byte = read_serial();
   if(not serial_byte.is_set_)
     return;
-  apply_outputs(serial_byte.byte_);
+  if( apply_outputs(serial_byte.byte_) )
+    Serial.write('#');
   wdt_reset();
 }
