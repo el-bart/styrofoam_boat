@@ -5,7 +5,7 @@
 
 Servo servo;
 auto constexpr pin_servo = 2;
-auto constexpr pin_engine_enable = 10;  // L298: enable pin  -> pin 6
+auto constexpr pin_engine_enable = 5;   // L298: enable pin  -> pin 6
 auto constexpr pin_engine_input_a = 11; // L298: input pin C -> pin 5
 auto constexpr pin_engine_input_b = 12; // L298: input pin D -> pin 7
 auto constexpr use_debug_writes = false;
