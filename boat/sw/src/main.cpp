@@ -9,10 +9,18 @@ auto constexpr pin_engine = 5;
 auto constexpr pin_engine_enable = 10;  // L298: enable pin  -> pin 6
 auto constexpr pin_engine_input_a = 11; // L298: input pin C -> pin 5
 auto constexpr pin_engine_input_b = 12; // L298: input pin D -> pin 7
+auto constexpr use_debug_writes = false;
 ProtoFsm fsm;
 
 namespace
 {
+template<typename T>
+void debug_write(T const& t)
+{
+  if(use_debug_writes)
+    Serial.write(t);
+}
+
 void apply_engine(Frame const& frame)
 {
   analogWrite( pin_engine, frame.engine_speed() );
@@ -75,7 +83,7 @@ void setup()
     wdt_disable();
     wdt_enable(WDTO_1S);
   }
-  Serial.write("booted\n");
+  debug_write("booted\n");
 }
 
 
@@ -100,7 +108,7 @@ SerialByte read_serial()
   auto byte = Serial.read();
   if(byte < 0)
     return {};
-  Serial.write('.');
+  debug_write('.');
   return SerialByte{ static_cast<uint8_t>(byte) };
 }
 }
@@ -111,6 +119,6 @@ void loop()
   if(not serial_byte.is_set_)
     return;
   if( apply_outputs(serial_byte.byte_) )
-    Serial.write('#');
+    debug_write('#');
   wdt_reset();
 }
