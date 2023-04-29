@@ -1,0 +1,4 @@
+#!/bin/bash
+set -eu -o pipefail
+dev="/dev/video0"
+exec mplayer -tv "device=$dev" tv://
