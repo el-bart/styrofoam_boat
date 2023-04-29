@@ -30,6 +30,7 @@ class Boat:
 
     def _encode_servo_pos(self, p):
         assert( -60 <= p and p <= +60 )
+        p = -p
         p = p + 60
         p = int(p/(2*60) * 127)
         assert( 0 <= p and p <= 127 )
