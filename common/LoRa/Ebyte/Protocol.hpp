@@ -16,12 +16,13 @@ struct Protocol final
   void reconfigure(Settings s)
   {
     auto const bin = detail::reconfigure(s);
-    auto const hex = detail::bin2hex(bin);
-    mode_settings();
-    send(hex.byte_);
-    wait_for_reconfiguration();
-    mode_transmission();
-    io_->speed(s.serial_link_.speed_);
+    reconfigure_send(s, bin);
+  }
+
+  void reconfigure_persist(Settings s)
+  {
+    auto const bin = detail::reconfigure_persist(s);
+    reconfigure_send(s, bin);
   }
 
   template<uint8_t N>
@@ -33,6 +34,16 @@ struct Protocol final
   }
 
 private:
+  void reconfigure_send(Settings const& s, detail::Binary const& bin)
+  {
+    auto const hex = detail::bin2hex(bin);
+    mode_settings();
+    send(hex.byte_);
+    wait_for_reconfiguration();
+    mode_transmission();
+    io_->speed(s.serial_link_.speed_);
+  }
+
   template<uint8_t N>
   void send(uint8_t const (&data)[N])
   {
