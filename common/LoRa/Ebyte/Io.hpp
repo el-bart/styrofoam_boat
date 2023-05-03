@@ -6,6 +6,7 @@ namespace LoRa::Ebyte
 
 struct Io
 {
+  Io() = default;
   virtual ~Io() = default;
 
   Io(Io const&) = delete;
