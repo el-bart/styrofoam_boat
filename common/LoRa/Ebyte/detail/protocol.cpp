@@ -9,19 +9,18 @@ uint8_t encode_parity() { return 0x00 << 6; }
 
 uint8_t encode(Settings::Serial_Link::Speed s)
 {
-  uint8_t enc;
   switch(s)
   {
-    case Settings::Serial_Link::Speed::b1200: enc = 0; break;
-    case Settings::Serial_Link::Speed::b2400: enc = 1; break;
-    case Settings::Serial_Link::Speed::b4800: enc = 2; break;
-    case Settings::Serial_Link::Speed::b9600: enc = 3; break;
-    case Settings::Serial_Link::Speed::b12200: enc = 4; break;
-    case Settings::Serial_Link::Speed::b38400: enc = 5; break;
-    case Settings::Serial_Link::Speed::b57600: enc = 6; break;
-    case Settings::Serial_Link::Speed::b115200: enc = 7; break;
+    case Settings::Serial_Link::Speed::b1200: return 0;
+    case Settings::Serial_Link::Speed::b2400: return 1;
+    case Settings::Serial_Link::Speed::b4800: return 2;
+    case Settings::Serial_Link::Speed::b9600: return 3;
+    case Settings::Serial_Link::Speed::b12200: return 4;
+    case Settings::Serial_Link::Speed::b38400: return 5;
+    case Settings::Serial_Link::Speed::b57600: return 6;
+    case Settings::Serial_Link::Speed::b115200: return 7;
   }
-  return enc << 3u;
+  return 0x00;
 }
 
 uint8_t encode(Settings::Wireless_Link::Speed s)
@@ -43,9 +42,9 @@ uint8_t encode(Settings::Wireless_Link::Speed s)
 uint8_t encode_speed(Settings const& s)
 {
   uint8_t out = 0x00;
-  out |= encode_parity();
-  out |= encode(s.serial_link_.speed_);
-  out |= encode(s.wireless_link_.speed_);
+  out |= encode_parity() << 6;
+  out |= encode(s.serial_link_.speed_) << 3;
+  out |= encode(s.wireless_link_.speed_) << 0;
   return out;
 }
 
