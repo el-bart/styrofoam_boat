@@ -48,7 +48,7 @@ struct Settings final
     };
 
     Channel channel_{0x2E};         //  default: 433M
-    Speed speed_{Speed::b9600};
+    Speed speed_{Speed::b2400};
     Power power_{Power::dBm20};
   };
 
