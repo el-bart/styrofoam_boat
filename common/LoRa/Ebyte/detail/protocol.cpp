@@ -60,9 +60,8 @@ uint8_t encode(Settings::Wireless_Link::Power p)
   }
   return 0x00;
 }
-}
 
-Binary reconfigure(Settings const& s)
+Binary reconfigure(Settings const& s, uint8_t op)
 {
   Binary bin;
   bin.byte_[0] = 0xC2;  // write settings; do not persist when power-cycled
@@ -72,6 +71,17 @@ Binary reconfigure(Settings const& s)
   bin.byte_[4] = s.wireless_link_.channel_;
   bin.byte_[5] = encode(s.wireless_link_.power_);
   return bin;
+}
+}
+
+Binary reconfigure(Settings const& s)
+{
+  return reconfigure(s, 0xC2);
+}
+
+Binary reconfigure_persist(Settings const& s)
+{
+  return reconfigure(s, 0xC0);
 }
 
 }
