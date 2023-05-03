@@ -7,7 +7,7 @@ using namespace LoRa::Ebyte;
 struct PrintIo: Io
 {
   // these are I/O with LoRa module:
-  void tx(uint8_t byte) override { std::cerr << byte; }
+  void tx(uint8_t byte) override { std::cout << byte; }
   uint8_t rx() override { throw std::logic_error{"N/A"}; }
   void m0(bool) override { }
   void m1(bool) override { }
@@ -22,7 +22,20 @@ int main()
 {
   PrintIo pio;
   Protocol proto{pio};
-  Settings s;
-  proto.reconfigure(s);
-  std::cerr << std::endl;
+
+  {
+    std::cout << "default settings:\n";
+    Settings s;
+    proto.reconfigure(s);
+    std::cout << "\n";
+  }
+
+  {
+    std::cout << "W=19.2k S=115.2k settings:\n";
+    Settings s;
+    s.wireless_link_.speed_ = Settings::Wireless_Link::Speed::b19200;
+    s.serial_link_.speed_ = Settings::Serial_Link::Speed::b115200;
+    proto.reconfigure(s);
+    std::cout << "\n";
+  }
 }
