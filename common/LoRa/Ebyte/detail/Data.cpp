@@ -3,17 +3,6 @@
 namespace LoRa::Ebyte::detail
 {
 
-struct Binary
-{
-  uint8_t byte_[6];
-};
-
-struct Hex
-{
-  uint8_t byte_[2*sizeof(Binary::byte_)];
-};
-
-
 namespace
 {
 uint8_t halfbyte2hex(const uint8_t halfbyte)
@@ -29,11 +18,11 @@ void byte2hex(const uint8_t byte, uint8_t* out)
 }
 }
 
-Hex bin2hex(Binary const& in)
+Hex bin2hex(Binary const& bin)
 {
   Hex out;
-  auto tmp = out.bytes_;
-  for(auto b: in.bytes_)
+  auto tmp = out.byte_;
+  for(auto b: bin.byte_)
   {
     byte2hex(b, tmp);
     tmp += 2;

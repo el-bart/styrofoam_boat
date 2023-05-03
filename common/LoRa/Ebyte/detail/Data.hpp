@@ -1,4 +1,5 @@
 #pragma once
+#include <stdint.h>
 
 namespace LoRa::Ebyte::detail
 {
@@ -10,10 +11,10 @@ struct Binary
 
 struct Hex
 {
-  char byte_[2*sizeof(Binary::byte_)];
+  uint8_t byte_[2*sizeof(Binary::byte_)];
 };
 
 
-Hex bin2hex(Binary const& in)
+Hex bin2hex(Binary const& bin);
 
 }

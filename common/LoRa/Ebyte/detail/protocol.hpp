@@ -5,6 +5,6 @@
 namespace LoRa::Ebyte::detail
 {
 
-Binary reconfigure(Settings settings);
+Binary reconfigure(Settings const& settings);
 
 }
