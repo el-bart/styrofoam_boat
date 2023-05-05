@@ -38,4 +38,6 @@ int main()
     proto.reconfigure(s);
     std::cout << "\n";
   }
+
+  std::cout << "note: values are printed in hex here, but must be sent in binary over uart!\n";
 }
