@@ -21,9 +21,9 @@ engine speed is encoded using 6, lower bits of a byte.
 * 1 == forward
 
 ## encoding
-data sent (and received) as a 3.3V UART, configured for 9600 bps.
+data sent (and received) as a 3.3V UART, configured for 115200 bps.
 
-radio link is established using LoRa module E49-400T20D.
+radio link is established using LoRa module E32-433T20D.
 default setings of the module are used, i.e.:
-- 9600 bps serial speed
-- 2400 bps wireless speed
+- 115200 bps serial speed
+- 19200 bps wireless speed

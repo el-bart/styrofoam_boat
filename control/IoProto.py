@@ -4,7 +4,7 @@ import time
 
 class Boat:
     def __init__(self, port):
-        self._sp = serial.Serial(port, 9600)
+        self._sp = serial.Serial(port, 115200)
         self._next_frame_after = 0.0
 
     # eng_speed = -100..+100 [%] (0 == stop)
