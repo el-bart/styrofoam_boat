@@ -14,7 +14,7 @@ class Boat:
         if self._sp.out_waiting > 0:
             return False
         # give time for LoRa module to send
-        if time.time() < self.self._next_frame_after:
+        if time.time() < self._next_frame_after:
             return False
         # actual sending
         frame = bytearray()
@@ -26,7 +26,7 @@ class Boat:
             print("{:02x} {:02x} {:02x}".format(frame[0], frame[1], frame[2]))
         # must wait >20ms after each transmission, to make sure LoRa module sends out the data
         self._sp.flush()
-        self.self._next_frame_after = time.time() + 0.025
+        self._next_frame_after = time.time() + 0.025
         return True
 
     def _encode_speed(self, s):
