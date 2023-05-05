@@ -1,0 +1,7 @@
+arduino nano
+https://docs.arduino.cc/hardware/nano/
+
+https://www.arduino.cc/reference/en/language/functions/communication/serial/read/
+https://www.arduino.cc/reference/en/language/functions/communication/serial/readbytesuntil/
+https://www.arduino.cc/reference/en/language/functions/communication/serial/
+https://www.ee-diary.com/2020/10/how-to-control-servo-motor-control.html
