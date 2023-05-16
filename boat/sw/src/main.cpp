@@ -68,7 +68,7 @@ void start_position()
 
 void setup()
 {
-  Serial.begin(9600);   // RX == 0, TX == 1
+  Serial.begin(115200);     // RX == 0, TX == 1
   servo.attach(pin_servo);
   {
     pinMode(pin_engine_enable, OUTPUT);
