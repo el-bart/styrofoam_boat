@@ -32,3 +32,28 @@ note that the interface must operate at 3.3V.
 if other operational parameters are needed, command for programming different work modes must be constructed.
 to help with this see source code under: `common/LoRa/Ebyte`.
 it allows to specify required settings and after compiling prints out given settings.
+
+
+## final thoughts / lessons learned
+
+### good
+
+* LoRa modules worked like a charm (despite "guaranteed" latency)
+* sealing worked flawlessly
+* safety feature to stop engine and 0-out rudder in case of connectivity issues saved the boat countless times
+
+### bad and ugly
+
+* rudder blade was too shallow. making it go deeper would provide more authority over the boat
+* screw was not deep enough - it should be fully submerged, couple cm under water
+* rudder must be perfectly centered behind the screw - 3mm off is enough to make a bit difference wrt turning direction agility
+* old, junk-bin analog cameras are really not worth the effort... :P
+* screw should be as close to 0 deg angle wrt waterline as possible - otherwise it's just an energy loss
+* make sure engine has enough power to drive the boat against the wind
+* ship's side shall not be too high, as it then acts as a sale, even on a small wind
+
+### misc notes
+
+* have a small pontoon at hand - just in case (had couple of close calls)
+* tall, rubber boots are helpful at the pond
+* make sure to check transcievers range before learning it the hard way at the pond ;)
